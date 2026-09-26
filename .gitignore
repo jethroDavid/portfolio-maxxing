@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+
+# firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# demo videos (keep the placeholder)
+public/demos/*.mp4
+public/demos/*.mov
+public/demos/*.webm
+!public/demos/placeholder.mp4
+
+# editor / os
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.local
