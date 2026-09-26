@@ -331,8 +331,84 @@ main {
   scroll-margin-top: 76px;
 }
 
-.project:hover {
-  border-color: var(--blue);
+.project {
+  position: relative;
+  transition:
+    border-color 0.12s steps(2),
+    transform 0.12s steps(2),
+    box-shadow 0.12s steps(2);
+}
+
+.project:hover,
+.project:focus-within {
+  border-color: var(--yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.project::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 42%,
+    rgba(224, 175, 104, 0.1) 48%,
+    rgba(224, 175, 104, 0.18) 50%,
+    rgba(224, 175, 104, 0.1) 52%,
+    transparent 58%
+  );
+  background-size: 100% 320%;
+  background-position: 0 100%;
+}
+
+.project:hover::after,
+.project:focus-within::after {
+  opacity: 1;
+  animation: scan-sweep 0.45s steps(7) 1;
+}
+
+@keyframes scan-sweep {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+.project:hover .sprite svg,
+.project:focus-within .sprite svg {
+  animation: sprite-jump 0.4s steps(4) 1;
+}
+
+@keyframes sprite-jump {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.project-main h2::before {
+  content: '▶ ';
+  color: transparent;
+}
+
+.project:hover .project-main h2::before,
+.project:focus-within .project-main h2::before {
+  color: var(--yellow);
+}
+
+.project:hover .read-more,
+.project:focus-within .read-more {
+  animation: blink 0.9s steps(1) infinite;
 }
 
 .project-tagline {
@@ -583,6 +659,44 @@ main {
   font-size: 14px;
 }
 
+/* ---------- story ---------- */
+
+.story {
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--yellow);
+  background: var(--panel-deep);
+  border-radius: 0 8px 8px 0;
+}
+
+.story-label {
+  display: block;
+  font-size: 11px;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+
+.story p {
+  margin: 0;
+  color: var(--bright);
+}
+
+.section-block {
+  margin: 22px 0 0;
+}
+
+.section-block h3 {
+  color: var(--cyan);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.section-block .tick-list {
+  margin-top: 8px;
+}
+
 /* ---------- not found / footer ---------- */
 
 .center {
@@ -620,6 +734,11 @@ main {
 
 .footer a:hover {
   color: var(--cyan);
+}
+
+/* Hidden by request — delete this rule to show GitHub links again. */
+.github-link {
+  display: none;
 }
 
 .cursor {
@@ -748,6 +867,20 @@ main {
   .cursor,
   .sprite-float {
     animation: none;
+  }
+
+  .project {
+    transition: none;
+  }
+
+  .project:hover::after,
+  .project:focus-within::after,
+  .project:hover .sprite svg,
+  .project:focus-within .sprite svg,
+  .project:hover .read-more,
+  .project:focus-within .read-more {
+    animation: none;
+    opacity: 1;
   }
 
   .px {

@@ -38,18 +38,44 @@ export default function ProjectDetail() {
                 </span>
               ))}
             </div>
+            {project.story && (
+              <aside className="story" aria-label="Backstory">
+                <span className="story-label" aria-hidden="true">
+                  $ story.md
+                </span>
+                <p>{project.story}</p>
+              </aside>
+            )}
             <ul className="tick-list">
               {project.highlights.map((highlight) => (
                 <li key={highlight}>{highlight}</li>
               ))}
             </ul>
+            {project.sections?.map((section) => (
+              <section className="section-block" key={section.heading} aria-label={section.heading}>
+                <h3>{section.heading}</h3>
+                <ul className="tick-list">
+                  {section.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
             {project.demos.map((demo) => (
               <DemoVideo key={demo.src} demo={demo} />
             ))}
             {project.links.length > 0 && (
               <div className="btn-row">
                 {project.links.map((link) => (
-                  <a className="btn" key={link.url} href={link.url} target="_blank" rel="noreferrer">
+                  <a
+                  className={
+                    link.label.toLowerCase().startsWith('github') ? 'btn github-link' : 'btn'
+                  }
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                     {link.label} ↗
                   </a>
                 ))}

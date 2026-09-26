@@ -3,6 +3,11 @@ export interface ProjectLink {
   url: string;
 }
 
+export interface ProjectSection {
+  heading: string;
+  points: string[];
+}
+
 export interface ProjectDemo {
   src: string;
   filename: string;
@@ -14,10 +19,12 @@ export interface Project {
   level: number;
   title: string;
   tagline: string;
+  story?: string;
   stack: string[];
   highlights: string[];
   links: ProjectLink[];
   demos: ProjectDemo[];
+  sections?: ProjectSection[];
 }
 
 export interface Job {
@@ -110,11 +117,13 @@ export const PROJECTS: Project[] = [
     level: 1,
     title: 'zerosum',
     tagline: 'Mobile trading app on Alpaca',
+    story:
+      "When IBKR access started getting restricted for Filipinos — pushed toward a local market I don't trust with my money — I needed a backup. So I built one I actually use: my own trading app on Alpaca, from portfolio down to the order ticket. No hype, no users to impress. Just the tool I open when I need to invest and don't want to ask permission.",
     demos: [
       {
-        src: '/demos/placeholder.mp4',
-        filename: 'placeholder.mp4',
-        caption: 'Placeholder — final cut: portfolio overview → stock detail → trade preview → order confirm.',
+        src: '/demos/zerosum/zerosum-demo.mp4',
+        filename: 'zerosum-demo.mp4',
+        caption: 'Demo: zerosum walkthrough (screen recording).',
       },
     ],
     stack: ['Ionic', 'Angular', 'Capacitor', 'Laravel', 'Alpaca API'],
@@ -134,12 +143,12 @@ export const PROJECTS: Project[] = [
     tagline: 'Multi-agent backend runtime',
     demos: [
       {
-        src: 'https://freshpineappleagent.web.app/assets/demos/agent-control-loop.mp4',
+        src: '/demos/pineapple-agent/agent-control-loop.mp4',
         filename: 'agent-control-loop.mp4',
         caption: 'Agent control loop: trigger → plan → act → verify from the dev CLI.',
       },
       {
-        src: 'https://freshpineappleagent.web.app/assets/demos/mobile-audio-loop.mp4',
+        src: '/demos/pineapple-agent/mobile-audio-loop.mp4',
         filename: 'mobile-audio-loop.mp4',
         caption: 'Mobile audio loop: voice request in the Expo app → spoken agent reply.',
       },
@@ -152,6 +161,33 @@ export const PROJECTS: Project[] = [
       'Expo mobile client with voice input and streaming audio playback.',
       'Static marketing site with run-flow demos, hosted on Firebase.',
     ],
+    sections: [
+      {
+        heading: 'runtime core',
+        points: [
+          'Trigger → routing → dispatch → approval → recovery pipeline; runs restore from durable Postgres/Drizzle stores.',
+          'Agent manifests plus a toolset registry, with pluggable session backends including Codex MCP.',
+          'Execution decisions stored separately from executions, so the reasoning behind a run survives restarts.',
+        ],
+      },
+      {
+        heading: 'adapters',
+        points: [
+          'Telegram control plane: webhook intake, thread selection, and send-message tools.',
+          'Cron scheduler with a Drizzle job store: reminders, schedules, and list/delete tooling.',
+          'Shortcut client: stories, comments, and verified webhook triggers.',
+          'Assistant audio bridge: Spotify auth/client plus OpenAI TTS with request and playback tracking.',
+        ],
+      },
+      {
+        heading: 'clients',
+        points: [
+          'Expo mobile app: speech-recognition input, streaming audio replies, React Query + Zustand state.',
+          'Static marketing site with run-flow demo clips, hosted on Firebase.',
+          'One-command dev runner (`pnpm pineapple`) with Tailscale and mobile-env support.',
+        ],
+      },
+    ],
     links: [
       { label: 'Live site', url: 'https://freshpineappleagent.web.app/' },
       { label: 'GitHub', url: 'https://github.com/jethroDavid/pineapple-agent' },
@@ -162,11 +198,13 @@ export const PROJECTS: Project[] = [
     level: 3,
     title: 'password-manager',
     tagline: 'Encrypted vault for credentials',
+    story:
+      'The free password manager I relied on suddenly wanted a monthly subscription — just to keep doing the one thing I used it for: holding my passwords. So I built my own. This was before vibe-coding; there was no agent to hand the crypto to. I studied how envelope encryption actually works — PBKDF2 key derivation, AES-GCM, a data key that never leaves memory — and built the vault I wanted to trust.',
     demos: [
       {
-        src: '/demos/placeholder.mp4',
-        filename: 'placeholder.mp4',
-        caption: 'Placeholder — final cut: passphrase unlock → vault search → add + autofill an item.',
+        src: '/demos/password-manager/password-manager-demo.mp4',
+        filename: 'password-manager-demo.mp4',
+        caption: 'Demo: password-manager walkthrough (screen recording).',
       },
     ],
     stack: ['Ionic', 'Angular', 'Capacitor', 'Firebase', 'WebCrypto'],
@@ -196,6 +234,33 @@ export const PROJECTS: Project[] = [
       'Staged edit/confirm-delete safety pattern so the agent never deletes outright.',
       'Job-post scanner ("Egg") with browser-verified leads and ranked daily scans.',
       'Marketplace bargain hunter ("Scout") for used Mac deals with anti-scam verification rules.',
+    ],
+    sections: [
+      {
+        heading: 'n8n car assistant',
+        points: [
+          'Capture path: free text in → OpenAI extraction → structured notes, events, odometer, and reminders.',
+          'Ask path: AI agent with 11 tools over the same tables, plus a chat harness for testing.',
+          'Watch loop: daily schedule pushes due reminders to Discord and rolls recurring ones forward.',
+          'Six tables: vehicles, notes, events, reminders, service categories, pending actions.',
+        ],
+      },
+      {
+        heading: 'openclaw agents',
+        points: [
+          'Five agents — main, jobs (Egg), products (Scout), general, car — each with its own workspace and SQLite memory.',
+          'Egg scans job posts with browser-verified leads and PH/remote filters.',
+          'Scout hunts marketplace deals with anti-scam verification rules.',
+          'Discord bindings route each agent’s findings to its own channel.',
+        ],
+      },
+      {
+        heading: 'safety model',
+        points: [
+          'Agent edits and deletes go through staged tool sub-workflows, never direct writes.',
+          'Deletes land in a pending-actions queue with expiry, then require confirmation.',
+        ],
+      },
     ],
     links: [],
   },

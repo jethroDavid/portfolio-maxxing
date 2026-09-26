@@ -75,7 +75,7 @@ export default function Layout() {
         <span>© {new Date().getFullYear()} Jethro Clein David</span>
         <nav aria-label="Contact">
           <a href={`mailto:${PROFILE.email}`}>email</a>
-          <a href={PROFILE.github} target="_blank" rel="noreferrer">
+          <a href={PROFILE.github} target="_blank" rel="noreferrer" className="github-link">
             github
           </a>
           <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">

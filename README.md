@@ -43,8 +43,9 @@ copy without touching layout code.
 
 Each project detail page embeds demo clips, wired via the `demos` array in
 `portfolio.ts` (`src` = video URL, `filename` = label, `caption` = subtext).
-`src` can be a local file under `public/demos/` or a remote URL —
-pineapple-agent streams its two real clips from its live Firebase site.
-Entries pointing at a missing file render a styled "demo offline" panel
-instead of a broken player, so unfinished demos degrade gracefully.
-Local clips are git-ignored (video files are heavy).
+Local clips live in per-project folders, e.g.
+`public/demos/zerosum/zerosum-demo.mp4` served at `/demos/zerosum/...`
+(remote URLs work too). Entries pointing at a missing file render a styled
+"demo offline" panel instead of a broken player, so unfinished demos degrade
+gracefully. Local clips are git-ignored (video files are heavy); `npm run
+build` still bundles them into `dist/` for Firebase deploy.

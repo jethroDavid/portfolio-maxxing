@@ -11,11 +11,10 @@ firebase-debug.log
 firestore-debug.log
 ui-debug.log
 
-# demo videos (keep the placeholder)
-public/demos/*.mp4
-public/demos/*.mov
-public/demos/*.webm
-!public/demos/placeholder.mp4
+# demo videos (heavy files; served locally + deployed, never committed)
+public/demos/**/*.mp4
+public/demos/**/*.mov
+public/demos/**/*.webm
 
 # editor / os
 .vscode/*
