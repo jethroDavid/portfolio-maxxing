@@ -33,8 +33,8 @@ works on the static host.
 ## Routes
 
 - `/` — showcase: neofetch hero + all projects with read-more links
-- `/projects/:slug` — project detail (zerosum, pineapple-agent, password-manager,
-  automation-system, noted)
+- `/projects/:slug` — project detail (noted, zerosum, pineapple-agent,
+  password-manager, automation-system)
 
 All site content lives in `src/data/portfolio.ts` — edit that file to update
 copy without touching layout code.

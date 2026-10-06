@@ -8,8 +8,8 @@ export default function Projects() {
         <p className="eyebrow">LEVEL SELECT</p>
         <h1>Projects</h1>
         <p className="lede">
-          Five flagship builds: a trading stack, an agent runtime, an encrypted vault, a
-          personal automation system, and a family board. Pick a level.
+          Five flagship builds: a family board, a trading stack, an agent runtime, an
+          encrypted vault, and a personal automation system. Pick a level.
         </p>
       </section>
 

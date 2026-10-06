@@ -113,8 +113,74 @@ export const JOBS: Job[] = [
 
 export const PROJECTS: Project[] = [
   {
-    slug: 'zerosum',
+    slug: 'noted',
     level: 1,
+    title: 'noted',
+    tagline: 'Shared family kitchen board',
+    demos: [
+      {
+        src: '/demos/noted/noted-realtime-sync.mp4',
+        filename: 'noted-realtime-sync.mp4',
+        caption:
+          'Demo: one home live on web, desktop, and Android at once — TV clips, fridge notes, and the photobook stay in sync.',
+      },
+      {
+        src: '/demos/noted/noted-signin-tour.mp4',
+        filename: 'noted-signin-tour.mp4',
+        caption:
+          'Demo: Google sign-in with passkey check, then the first-run path from fridge board to photobook.',
+      },
+    ],
+    stack: ['Next.js', 'tRPC', 'Drizzle', 'Redis', 'QStash', 'Capacitor', 'Electron'],
+    highlights: [
+      'One shared board: fridge notes, a reels-style TV feed, and a photo book that auto-archives removed photos and expired reels.',
+      'Live on web, Android, and desktop at once — thin Capacitor and Electron shells over one Next.js app.',
+      'Realtime over tRPC subscriptions + SSE with Redis pub/sub rooms, board-read cache, and presence.',
+      'Media pipeline on presigned S3 uploads with QStash workers for thumbnails, reel posters, cleanup, and a daily reel sweep.',
+      'Type-safe end to end: tRPC + zod + superjson as the only API definition, Drizzle over Postgres, Firebase Google auth.',
+    ],
+    sections: [
+      {
+        heading: 'shared boards',
+        points: [
+          'Multi-user homes with members plus invitations behind Google sign-in.',
+          'Fridge: draggable text and photo notes with modal edit; TV: vertical short-video feed; book: archive with originals and delete-forever.',
+          'Text deletes remove instantly with a 10-second Undo toast; removed photos archive straight to the book.',
+        ],
+      },
+      {
+        heading: 'realtime backbone',
+        points: [
+          'tRPC subscriptions over SSE on the same route — plain HTTP streaming, no sockets.',
+          'Redis pub/sub rooms fan out across instances; reconnect resubscribes and refetches state.',
+          'Events are invalidation signals (board-changed, media-changed), not patches.',
+        ],
+      },
+      {
+        heading: 'media pipeline',
+        points: [
+          'Presigned-URL uploads straight to S3 — MinIO locally, a CDK-owned bucket in production.',
+          'Workers cut photo thumbnails and reel posters, and clean variants on removal.',
+          'Reels expire 7 days after creation; the daily sweep archives them to the book as playable clips.',
+        ],
+      },
+      {
+        heading: 'shipping',
+        points: [
+          'Live in production on Vercel + Neon Postgres + Upstash Redis/QStash + S3 + Firebase.',
+          'One six-gate check (format, lint, typecheck, test, CDK synth, build) through Turbo, mirrored by CI.',
+          'Windows NSIS installer and Android APK cut from tagged releases.',
+        ],
+      },
+    ],
+    links: [
+      { label: 'Live site', url: 'https://noted-six-chi.vercel.app/' },
+      { label: 'GitHub', url: 'https://github.com/jethroDavid/noted' },
+    ],
+  },
+  {
+    slug: 'zerosum',
+    level: 2,
     title: 'zerosum',
     tagline: 'Mobile trading app on Alpaca',
     story:
@@ -138,7 +204,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'pineapple-agent',
-    level: 2,
+    level: 3,
     title: 'pineapple-agent',
     tagline: 'Multi-agent backend runtime',
     demos: [
@@ -195,7 +261,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'password-manager',
-    level: 3,
+    level: 4,
     title: 'password-manager',
     tagline: 'Encrypted vault for credentials',
     story:
@@ -218,7 +284,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'automation-system',
-    level: 4,
+    level: 5,
     title: 'automation-system',
     tagline: 'n8n + OpenClaw + Discord personal ops',
     demos: [
@@ -261,26 +327,6 @@ export const PROJECTS: Project[] = [
           'Deletes land in a pending-actions queue with expiry, then require confirmation.',
         ],
       },
-    ],
-    links: [],
-  },
-  {
-    slug: 'noted',
-    level: 5,
-    title: 'noted',
-    tagline: 'Shared family kitchen board',
-    demos: [
-      {
-        src: '/demos/placeholder.mp4',
-        filename: 'placeholder.mp4',
-        caption: 'Placeholder — final cut: fridge note → realtime sync → TV feed + photo book.',
-      },
-    ],
-    stack: ['Next.js', 'React', 'tRPC', 'Drizzle', 'PostgreSQL', 'Firebase Auth'],
-    highlights: [
-      'One shared board: fridge notes, a reels-style TV feed, and a photo book that auto-archives removed photos.',
-      'Realtime sync with caching and background media workers on a Turbo monorepo foundation.',
-      'Type-safe end to end: tRPC + zod validators shared across web, API, and worker packages.',
     ],
     links: [],
   },
