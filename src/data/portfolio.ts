@@ -46,7 +46,6 @@ export const PROFILE = {
   location: 'Philippines (Remote)',
   email: 'jethrodavid6@gmail.com',
   phone: '+63 908 486 0092',
-  github: 'https://github.com/jethroDavid',
   linkedin: 'https://www.linkedin.com/in/jethro-clein-david/',
   summary:
     'Senior Software Engineer with 7 years shipping production web, mobile, and commerce systems. Contractor since 2024 as the sole mobile owner of a production Ionic/Angular app, leading its offline-first v2. Background spans enterprise Angular, Magento/Adobe Commerce, Laravel, security remediation, and self-built AI agent runtimes and personal automation.',
@@ -73,11 +72,11 @@ export const JOBS: Job[] = [
     company: 'TabLogs',
     dates: '2024 – Present',
     bullets: [
-      'Sole owner of a production Ionic/Angular field app serving hundreds of users: review and merge work from 2 developers, release to iOS and Android 2–3 times a week.',
+      'Sole owner of a production Ionic/Angular field app serving hundreds of users: review changes, release to iOS and Android 2–3 times a week.',
       'Run every change through a self-built agent QA loop: implement, verify across Chrome + emulator lanes over CDP, review and re-verify so merges land pre-tested.',
       'Rewrote the offline layer (PouchDB/CouchDB) v1 → v2: split the monolith, added a resolve-reference table that cut parent/child sync failures to near zero, plus local-DB snapshots for field debugging.',
       'Built the iOS/Android release process from scratch: TestFlight betas, live-update pipeline across testing/sandbox/UAT/production, JS-gated per-version updates, forced updates.',
-      'Migrated ~500 of ~700 web components to Shared UI + i18n + Storybook with a self-built agent wrapper, and took the marketing site from PageSpeed 67 to 94 with zero regressions.',
+      'Migrated more than 500 web components to shared UI, translations and Storybook using self-built AI tooling. Improved marketing-site performance and SEO through prerendering, metadata, canonical URLs and structured data.',
     ],
   },
   {
@@ -96,17 +95,17 @@ export const JOBS: Job[] = [
     dates: 'Sep 2021 – 2022',
     bullets: [
       "Joined as the most junior member of a 7–10 person PH/India team on the L'OR Espresso and Tassimo storefronts; became a relied-on contributor and was promoted.",
-      'Pinpointed the fix for a post-release bug that stopped all checkouts, tracing it through Knockout.js while client and senior teams were still investigating.',
+      'Resolved a critical checkout issue in production.',
       'Closed most of the team’s tickets by end of contract; picked up safe release habits from weekly storefront releases.',
     ],
   },
   {
     title: 'Full-Stack Developer, Magento & Laravel',
-    company: 'Independent',
+    company: '',
     dates: 'Jul 2019 – Sep 2021',
     bullets: [
       'Worked solo across Magento and Laravel: features from analysis through deploy, shipping over SSH with manual deployments.',
-      'Migrated Magento 1 → Magento 2 alone with no AI help; built custom modules that all shipped working: mobile-number login, ISP plan-inquiry pages, in-store-pickup shipping, Home Credit / Akulaku payment integrations.',
+      'Independently migrated Magento 1 to 2 and built login, in-store pickup, payment integrations and other custom modules.',
     ],
   },
 ];
@@ -116,7 +115,7 @@ export const PROJECTS: Project[] = [
     slug: 'noted',
     level: 1,
     title: 'noted',
-    tagline: 'Shared family kitchen board',
+    tagline: 'Shared family board with offline Android and Windows apps',
     demos: [
       {
         src: '/demos/noted/noted-realtime-sync.mp4',
@@ -131,52 +130,59 @@ export const PROJECTS: Project[] = [
           'Demo: Google sign-in with passkey check, then the first-run path from fridge board to photobook.',
       },
     ],
-    stack: ['Next.js', 'tRPC', 'Drizzle', 'Redis', 'QStash', 'Capacitor', 'Electron'],
+    stack: ['Next.js', 'tRPC', 'PostgreSQL', 'SQLite', 'PowerSync', 'AWS S3', 'AWS CDK', 'Redis', 'QStash', 'Capacitor', 'Electron'],
     highlights: [
-      'One shared board: fridge notes, a reels-style TV feed, and a photo book that auto-archives removed photos and expired reels.',
-      'Live on web, Android, and desktop at once — thin Capacitor and Electron shells over one Next.js app.',
-      'Realtime over tRPC subscriptions + SSE with Redis pub/sub rooms, board-read cache, and presence.',
-      'Media pipeline on presigned S3 uploads with QStash workers for thumbnails, reel posters, cleanup, and a daily reel sweep.',
-      'Type-safe end to end: tRPC + zod + superjson as the only API definition, Drizzle over Postgres, Firebase Google auth.',
+      'One shared family board with fridge notes, a TV feed and a photobook for archived photos and clips.',
+      'Android and Windows bundle the shared interface and save notes and media locally with SQLite and PowerSync, so work can continue during connection loss.',
+      'The web app uses tRPC subscriptions over SSE with Redis fan-out, cache invalidation and presence.',
+      'Durable media queues upload originals with checksum verification and retry interrupted transfers. S3 and QStash handle storage and background processing.',
+      'Type-safe APIs with tRPC, Zod and Drizzle over PostgreSQL, with Firebase authentication and membership-scoped sync streams.',
+      'Automated database migrations between the production build and publish steps, with locking to serialize overlapping releases.',
     ],
     sections: [
       {
         heading: 'shared boards',
         points: [
-          'Multi-user homes with members plus invitations behind Google sign-in.',
-          'Fridge: draggable text and photo notes with modal edit; TV: vertical short-video feed; book: archive with originals and delete-forever.',
-          'Text deletes remove instantly with a 10-second Undo toast; removed photos archive straight to the book.',
+          'Multi-user homes with invitations, shared fridge notes, a TV feed and a photobook behind Google sign-in.',
+          'The illustrated interface is shared across Next.js, Capacitor Android and Electron Windows apps.',
+          'Native screens read watched local SQLite data, while the web app uses its online tRPC data path.',
         ],
       },
       {
-        heading: 'realtime backbone',
+        heading: 'offline native apps',
         points: [
-          'tRPC subscriptions over SSE on the same route — plain HTTP streaming, no sockets.',
-          'Redis pub/sub rooms fan out across instances; reconnect resubscribes and refetches state.',
-          'Events are invalidation signals (board-changed, media-changed), not patches.',
+          'Text edits and pending operations commit locally together before network delivery. Stable operation IDs and server receipts make retries idempotent.',
+          'PowerSync streams authorized rows from PostgreSQL into account-scoped SQLite databases, with subscriptions narrowed by home, board and archive month.',
+          'Original photos and videos persist before local acknowledgement. Separate metadata and attachment queues preserve pending work across restarts.',
+          'System-browser sign-in uses a verifier-bound approval flow. Sign-out offers sync first, retain local work or cancel.',
         ],
       },
       {
-        heading: 'media pipeline',
+        heading: 'web realtime',
         points: [
-          'Presigned-URL uploads straight to S3 — MinIO locally, a CDK-owned bucket in production.',
-          'Workers cut photo thumbnails and reel posters, and clean variants on removal.',
-          'Reels expire 7 days after creation; the daily sweep archives them to the book as playable clips.',
+          'tRPC subscriptions over SSE use Redis pub/sub to fan out board and media invalidation events across server instances.',
+          'Reconnect resubscribes and refetches state, keeping PostgreSQL as the source of truth.',
         ],
       },
       {
-        heading: 'shipping',
+        heading: 'media delivery and recovery',
         points: [
-          'Live in production on Vercel + Neon Postgres + Upstash Redis/QStash + S3 + Firebase.',
-          'One six-gate check (format, lint, typecheck, test, CDK synth, build) through Turbo, mirrored by CI.',
-          'Windows NSIS installer and Android APK cut from tagged releases.',
+          'Presigned uploads bind native transfers to a SHA-256 checksum, followed by server verification before acceptance.',
+          'Persistent retry state, protected pending originals and recovery jobs handle interrupted uploads and delayed media processing.',
+          'QStash workers generate thumbnails and video posters, clean removed variants and archive expired reels.',
+          'Android uses native filesystem and transfer plugins; Windows keeps originals in account-scoped browser storage.',
+        ],
+      },
+      {
+        heading: 'releases and verification',
+        points: [
+          'The web backend uses Vercel, Neon PostgreSQL, Upstash Redis/QStash, AWS S3 and Firebase. AWS CDK defines the private bucket and scoped IAM access policies. Tagged workflows build Android APKs and Windows installers.',
+          'Added build, migration and publish sequencing, with a PostgreSQL lock to serialize overlapping database releases and fail publication when migrations fail.',
+          'Tests cover durable SQLite writes, retry identity, media verification and native transfer behavior. Development sync and Android emulator photo flows were also exercised.',
         ],
       },
     ],
-    links: [
-      { label: 'Live site', url: 'https://noted-six-chi.vercel.app/' },
-      { label: 'GitHub', url: 'https://github.com/jethroDavid/noted' },
-    ],
+    links: [{ label: 'Live site', url: 'https://noted-six-chi.vercel.app/' }],
   },
   {
     slug: 'zerosum',
@@ -200,7 +206,7 @@ export const PROJECTS: Project[] = [
       'Laravel 12 backend: Passport OAuth, Google login, and a typed Alpaca Broker API wrapper.',
       'News, financial statements, and Chart.js balance history per symbol.',
     ],
-    links: [{ label: 'GitHub (app)', url: 'https://github.com/jethroDavid/zerosumx' }],
+    links: [],
   },
   {
     slug: 'pineapple-agent',
@@ -256,7 +262,6 @@ export const PROJECTS: Project[] = [
     ],
     links: [
       { label: 'Live site', url: 'https://freshpineappleagent.web.app/' },
-      { label: 'GitHub', url: 'https://github.com/jethroDavid/pineapple-agent' },
     ],
   },
   {
@@ -280,7 +285,7 @@ export const PROJECTS: Project[] = [
       'Cloud-backed with Firebase Auth + Firestore realtime sync and local encrypted cache.',
       'Login/register plus passphrase unlock flow with per-item CRUD and search.',
     ],
-    links: [{ label: 'GitHub', url: 'https://github.com/jethroDavid/passsword-manager' }],
+    links: [],
   },
   {
     slug: 'automation-system',
@@ -333,6 +338,10 @@ export const PROJECTS: Project[] = [
 ];
 
 export const SKILLS: SkillGroup[] = [
+  {
+    name: 'Cloud & Infrastructure',
+    items: 'AWS (S3, IAM, CDK), infrastructure as code, Firebase, Vercel',
+  },
   {
     name: 'Frontend & Mobile',
     items:

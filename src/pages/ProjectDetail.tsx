@@ -12,8 +12,8 @@ export default function ProjectDetail() {
 
   return (
     <>
-      <Link className="back" to="/">
-        ❯ cd ~/projects
+      <Link className="back" to="/#experience">
+        ← All work
       </Link>
       <article className="window" aria-label={project.title}>
         <div className="window-bar">
@@ -28,7 +28,7 @@ export default function ProjectDetail() {
           </div>
           <div className="project-main">
             <h1>
-              {String(project.level).padStart(2, '0')} — {project.title}
+              {project.title}
             </h1>
             <p className="project-tagline">{project.tagline}</p>
             <div className="tags">
@@ -68,9 +68,7 @@ export default function ProjectDetail() {
               <div className="btn-row">
                 {project.links.map((link) => (
                   <a
-                  className={
-                    link.label.toLowerCase().startsWith('github') ? 'btn github-link' : 'btn'
-                  }
+                  className="btn"
                   key={link.url}
                   href={link.url}
                   target="_blank"
@@ -87,3 +85,5 @@ export default function ProjectDetail() {
     </>
   );
 }
+
+
